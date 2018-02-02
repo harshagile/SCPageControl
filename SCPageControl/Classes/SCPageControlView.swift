@@ -64,6 +64,33 @@ import UIKit
         }
     }
     
+    //MARK: ## view init method ##
+    public func set_view(_ page: Int, current: Int, deselect_tintColor: UIColor,currentPage_TintColor:UIColor) {
+        let viewFrame = calculateViewRealSize()
+        switch scp_style {
+        case .SCJAMoveCircle:
+            let scp_scjamovecircle = SCP_SCJAMoveCircle(frame: viewFrame)
+            scp_scjamovecircle.tag = scp_style.rawValue
+            scp_scjamovecircle.set_view(page, current: current, tint_color: currentPage_TintColor)
+            self.addSubview(scp_scjamovecircle)
+        case .SCJAFillCircle:
+            let scp_scjafillcircle = SCP_SCJAFillCircle(frame: viewFrame)
+            scp_scjafillcircle.tag = scp_style.rawValue
+            scp_scjafillcircle.set_view(page, current: current, tint_color: currentPage_TintColor)
+            self.addSubview(scp_scjafillcircle)
+        case .SCJAFlatBar:
+            let scp_scjaflatbar = SCP_SCJAFlatBar(frame: viewFrame)
+            scp_scjaflatbar.tag = scp_style.rawValue
+            scp_scjaflatbar.set_view(page, current: current, tint_color: currentPage_TintColor)
+            self.addSubview(scp_scjaflatbar)
+        default: //.SCNormal
+            let scp_normal = SCP_SCNormal(frame: viewFrame)
+            scp_normal.tag = scp_style.rawValue
+            scp_normal.set_view(page, current: current, tint_colorForDeselected: deselect_tintColor, currentPageTintColor: currentPage_TintColor)
+            self.addSubview(scp_normal)
+        }
+    }
+    
     //MARK: ## Call the moment in rotate Device ##
     public func set_rotateDevice() {
         let viewFrame = calculateViewRealSize()

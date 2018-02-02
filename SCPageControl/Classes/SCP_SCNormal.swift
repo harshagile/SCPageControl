@@ -16,6 +16,9 @@ class SCP_SCNormal: UIView {
     var screenWidth : CGFloat = UIScreen.main.bounds.size.width
     var screenHeight : CGFloat = UIScreen.main.bounds.size.height
     
+    var colorForCurrentPage:UIColor?
+    var colorForDeseselectedPage:UIColor?
+    
     required init(coder aDecoder: NSCoder) {
         super.init(coder:aDecoder)!
     }
@@ -64,6 +67,49 @@ class SCP_SCNormal: UIView {
             
             f_x += f_width + 10
         }        
+    }
+    
+    // ## view init method ##
+    func set_view(_ page: Int, current: Int, tint_colorForDeselected: UIColor,currentPageTintColor:UIColor) {
+        
+        numberOfPage = page
+        currentOfPage = current
+        
+        self.colorForCurrentPage = currentPageTintColor
+        self.colorForDeseselectedPage = tint_colorForDeselected
+        
+        let f_all_width: CGFloat = CGFloat((numberOfPage-1)*20 + 25)
+        
+        guard f_all_width < self.frame.size.width else {
+            print("frame.Width over Number Of Page")
+            return
+        }
+        
+        var f_width: CGFloat = 10.0, f_height: CGFloat = 10.0
+        var f_x: CGFloat = (self.frame.size.width-f_all_width)/2.0, f_y: CGFloat = (self.frame.size.height-f_height)/2.0
+        
+        f_start_point = f_x
+        
+        for i in 0 ..< numberOfPage {
+            let img_page = UIImageView()
+            
+            if i == currentOfPage {
+                f_width = 25.0
+                //                img_page.alpha = 1.0
+                img_page.backgroundColor = currentPageTintColor
+            } else {
+                f_width = 10.0
+                //                img_page.alpha = 0.4
+                img_page.backgroundColor = tint_colorForDeselected
+            }
+            img_page.frame = CGRect(x: f_x, y: f_y, width: f_width, height: f_height)
+            img_page.layer.cornerRadius = img_page.frame.size.height/2.0
+            //            img_page.backgroundColor = currentPageTintColor
+            img_page.tag = i+10
+            self.addSubview(img_page)
+            
+            f_x += f_width + 10
+        }
     }
     
     // ## Call the move page in scrollView ##
