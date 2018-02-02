@@ -115,30 +115,71 @@ class SCP_SCNormal: UIView {
     // ## Call the move page in scrollView ##
     func scroll_did(_ scrollView: UIScrollView) {
         
-        let f_page = scrollView.contentOffset.x / scrollView.frame.size.width
-        
-        let tag_value = get_imgView_tag(f_page)+10
-        let f_next_start: CGFloat = (CGFloat(tag_value-10) * scrollView.frame.size.width)
-        
-        let f_move: CGFloat = (15*(f_start-scrollView.contentOffset.x)/scrollView.frame.size.width)
-        let f_alpha: CGFloat = (0.6*(scrollView.contentOffset.x-f_next_start)/scrollView.frame.size.width)
-        
-        if let iv_page: UIImageView = self.viewWithTag(tag_value) as? UIImageView,
-            tag_value >= 10 && tag_value+1 < 10+numberOfPage {
+        if self.colorForCurrentPage != nil && self.colorForDeseselectedPage != nil {
             
-            iv_page.frame = CGRect(x: f_start_point+((CGFloat(tag_value)-10)*20),
-                                   y: iv_page.frame.origin.y,
-                                   width: 25+(f_move+((CGFloat(tag_value)-10)*15)),
-                                   height: iv_page.frame.size.height)
-            iv_page.alpha = 1-f_alpha
+            let f_page = scrollView.contentOffset.x / scrollView.frame.size.width
             
-            if let iv_page_next: UIImageView = self.viewWithTag(tag_value+1) as? UIImageView {
-                let f_page_next_x: CGFloat = ((f_start_point+35)+((CGFloat(tag_value)-10)*20))
-                iv_page_next.frame = CGRect(x: f_page_next_x+(f_move+((CGFloat(tag_value)-10)*15)),
-                                            y: iv_page_next.frame.origin.y,
-                                            width: 10-(f_move+((CGFloat(tag_value)-10)*15)),
-                                            height: iv_page_next.frame.size.height)
-                iv_page_next.alpha = 0.4+f_alpha
+            let tag_value = get_imgView_tag(f_page)+10
+            
+            let f_move: CGFloat = (15*(f_start-scrollView.contentOffset.x)/scrollView.frame.size.width)
+            
+            if let iv_page: UIImageView = self.viewWithTag(tag_value) as? UIImageView,
+                tag_value >= 10 && tag_value+1 < 10+numberOfPage {
+                
+                iv_page.frame = CGRect(x: f_start_point+((CGFloat(tag_value)-10)*20),
+                                       y: iv_page.frame.origin.y,
+                                       width: 25+(f_move+((CGFloat(tag_value)-10)*15)),
+                                       height: iv_page.frame.size.height)
+                
+                print("Height \(iv_page.frame.size.width)")
+                if iv_page.frame.size.width > 20{
+                    iv_page.backgroundColor = self.colorForCurrentPage!
+                }else{
+                    iv_page.backgroundColor = self.colorForDeseselectedPage!
+                }
+                
+                if let iv_page_next: UIImageView = self.viewWithTag(tag_value+1) as? UIImageView {
+                    let f_page_next_x: CGFloat = ((f_start_point+35)+((CGFloat(tag_value)-10)*20))
+                    iv_page_next.frame = CGRect(x: f_page_next_x+(f_move+((CGFloat(tag_value)-10)*15)),
+                                                y: iv_page_next.frame.origin.y,
+                                                width: 10-(f_move+((CGFloat(tag_value)-10)*15)),
+                                                height: iv_page_next.frame.size.height)
+                    print("iv_page_next \(iv_page_next.frame.size.width)")
+                    //                    iv_page_next.alpha = 0.4+f_alpha
+                    if iv_page_next.frame.size.width > 20{
+                        iv_page_next.backgroundColor = self.colorForCurrentPage!
+                    }else{
+                        iv_page_next.backgroundColor = self.colorForDeseselectedPage!
+                    }
+                }
+            }
+        }else{
+            
+            let f_page = scrollView.contentOffset.x / scrollView.frame.size.width
+            
+            let tag_value = get_imgView_tag(f_page)+10
+            let f_next_start: CGFloat = (CGFloat(tag_value-10) * scrollView.frame.size.width)
+            
+            let f_move: CGFloat = (15*(f_start-scrollView.contentOffset.x)/scrollView.frame.size.width)
+            let f_alpha: CGFloat = (0.6*(scrollView.contentOffset.x-f_next_start)/scrollView.frame.size.width)
+            
+            if let iv_page: UIImageView = self.viewWithTag(tag_value) as? UIImageView,
+                tag_value >= 10 && tag_value+1 < 10+numberOfPage {
+                
+                iv_page.frame = CGRect(x: f_start_point+((CGFloat(tag_value)-10)*20),
+                                       y: iv_page.frame.origin.y,
+                                       width: 25+(f_move+((CGFloat(tag_value)-10)*15)),
+                                       height: iv_page.frame.size.height)
+                iv_page.alpha = 1-f_alpha
+                
+                if let iv_page_next: UIImageView = self.viewWithTag(tag_value+1) as? UIImageView {
+                    let f_page_next_x: CGFloat = ((f_start_point+35)+((CGFloat(tag_value)-10)*20))
+                    iv_page_next.frame = CGRect(x: f_page_next_x+(f_move+((CGFloat(tag_value)-10)*15)),
+                                                y: iv_page_next.frame.origin.y,
+                                                width: 10-(f_move+((CGFloat(tag_value)-10)*15)),
+                                                height: iv_page_next.frame.size.height)
+                    iv_page_next.alpha = 0.4+f_alpha
+                }
             }
         }
     }
